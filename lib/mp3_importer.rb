@@ -1,26 +1,20 @@
+require 'pry'
+
 class MP3Importer
-  attr_accessor :path, :files, :song, :file, :artist
-  @@all = []
+  attr_accessor :path
 
   def initialize(path)
     @path = path
   end
 
   def files
-    @files = []
-    dir = Dir.new(self.path)
-    dir.each do |file|
-      if file.length > 4
-        @files << file
-      end
-    end
-    @files
+    Dir.entries(@path).select! {|entry| entry.end_with?(".mp3")}
   end
 
   def import
-    self.files.each do |file|
-      Song.new_by_filename(file)
-
+    self.files.each do |filename|
+      
+      Song.new_by_filename(filename)
     end
   end
 
